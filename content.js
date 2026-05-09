@@ -1,7 +1,7 @@
 // Bilingual content. Replace placeholder text with real values.
 window.PORTFOLIO_CONTENT = {
   meta: {
-    name:    { en: "Kun Sovathana",                        km: "គន់ សុវត្ថនា" },
+    name:    { en: "Kun Sovathana",                        km: "គុណ សុវត្ថនា" },
     rank:    { en: "First Lieutenant",                     km: "អនុសេនីយ៍ឯក" },
     rankShort: { en: "1LT",                                km: "អន.ឯក" },
     role:    { en: "Airborne Infantry Officer",            km: "នាយទាហាន​អ៊ីនហ្វង់ទ្រី​ចូលដោយឆ័ត្រ" },
@@ -163,8 +163,6 @@ window.PORTFOLIO_CONTENT = {
   languages: [
     { name:{en:"Khmer",   km:"ខ្មែរ"},      level:{en:"Native",        km:"ភាសា​កំណើត"},        l:5 },
     { name:{en:"English", km:"អង់គ្លេស"},   level:{en:"Professional",  km:"កម្រិត​វិជ្ជាជីវៈ"}, l:4 },
-    { name:{en:"Thai",    km:"ថៃ"},         level:{en:"Conversational",km:"និយាយ​បាន"},          l:3 },
-    { name:{en:"French",  km:"បារាំង"},     level:{en:"Basic",         km:"មូលដ្ឋាន"},          l:2 },
   ],
 
   references: [

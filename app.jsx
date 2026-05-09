@@ -22,50 +22,85 @@ const langClass = (lang) => lang === "km" ? "km" : "en";
 
 /* ============== HEADER ============== */
 function Header({ lang, setLang, route, setRoute, theme, setTheme }) {
-  return (
-    <header className="site-header">
-      <div className="header-inner">
-        <a className="brand" href="#home" onClick={(e)=>{e.preventDefault(); setRoute("home");}}>
-          <Insignia />
-          <div className="brand-text">
-            <div className="brand-line-1">{lang==="km" ? "ឯកសារ​នាយទាហាន" : "Officer Dossier"}</div>
-            <div className="brand-line-2">{lang==="km" ? "កងយោធពលខេមរភូមិន្ទ" : "Royal Cambodian Armed Forces"}</div>
-          </div>
-        </a>
+  const [menuOpen, setMenuOpen] = useState(false);
 
-        <nav className="site-nav">
+  useEffect(() => {
+    document.body.style.overflow = menuOpen ? "hidden" : "";
+    return () => { document.body.style.overflow = ""; };
+  }, [menuOpen]);
+
+  const goto = (id) => { setRoute(id); setMenuOpen(false); };
+
+  return (
+    <>
+      <header className="site-header">
+        <div className="header-inner">
+          <a className="brand" href="#home" onClick={(e)=>{e.preventDefault(); goto("home");}}>
+            <Insignia />
+            <div className="brand-text">
+              <div className="brand-line-1">{lang==="km" ? "ឯកសារ​នាយទាហាន" : "Officer Dossier"}</div>
+              <div className="brand-line-2">{lang==="km" ? "កងយោធពលខេមរភូមិន្ទ" : "Royal Cambodian Armed Forces"}</div>
+            </div>
+          </a>
+
+          <nav className="site-nav">
+            {C.nav.map((n,i) => (
+              <a key={n.id} href={`#${n.id}`}
+                 className={"nav-item" + (route===n.id ? " is-active" : "")}
+                 onClick={(e)=>{e.preventDefault(); goto(n.id);}}>
+                <span className="nav-num">{String(i+1).padStart(2,"0")}</span>
+                <span className="nav-label">{T(lang, n)}</span>
+              </a>
+            ))}
+          </nav>
+
+          <div className="header-controls">
+            <button className="theme-toggle" onClick={()=>setTheme(theme==="dark"?"light":"dark")}
+                    aria-label="Toggle theme" title="Toggle theme">
+              {theme === "dark" ? (
+                <svg viewBox="0 0 20 20" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="1.5">
+                  <path d="M16 11.5A6 6 0 0 1 8.5 4a6 6 0 1 0 7.5 7.5z"/>
+                </svg>
+              ) : (
+                <svg viewBox="0 0 20 20" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="1.5">
+                  <circle cx="10" cy="10" r="3.5"/>
+                  <path d="M10 2v2M10 16v2M2 10h2M16 10h2M4.2 4.2l1.4 1.4M14.4 14.4l1.4 1.4M4.2 15.8l1.4-1.4M14.4 5.6l1.4-1.4"/>
+                </svg>
+              )}
+            </button>
+            <button className="lang-toggle" onClick={()=>setLang(lang==="km"?"en":"km")}>
+              <span className={"lang-pill " + (lang==="km" ? "is-active":"")}>ខ្មែរ</span>
+              <span className="lang-divider">/</span>
+              <span className={"lang-pill " + (lang==="en" ? "is-active":"")}>EN</span>
+            </button>
+            <button className={"menu-toggle" + (menuOpen ? " is-open" : "")}
+                    onClick={()=>setMenuOpen(o => !o)}
+                    aria-label="Toggle menu" aria-expanded={menuOpen ? "true" : "false"}>
+              <span/><span/><span/>
+            </button>
+          </div>
+        </div>
+      </header>
+
+      <div className={"mobile-nav" + (menuOpen ? " is-open" : "")}
+           onClick={(e)=>{ if (e.target === e.currentTarget) setMenuOpen(false); }}
+           aria-hidden={menuOpen ? "false" : "true"}>
+        <nav className="mobile-nav-inner" role="navigation">
+          <div className="mobile-nav-head">
+            {lang==="km" ? "ផ្នែក" : "Sections"}
+          </div>
           {C.nav.map((n,i) => (
             <a key={n.id} href={`#${n.id}`}
-               className={"nav-item" + (route===n.id ? " is-active" : "")}
-               onClick={(e)=>{e.preventDefault(); setRoute(n.id);}}>
-              <span className="nav-num">{String(i+1).padStart(2,"0")}</span>
-              <span className="nav-label">{T(lang, n)}</span>
+               className={"mobile-nav-item" + (route===n.id ? " is-active" : "")}
+               onClick={(e)=>{e.preventDefault(); goto(n.id);}}>
+              <span className="mobile-nav-num">{String(i+1).padStart(2,"0")}</span>
+              <span className="mobile-nav-label">{T(lang, n)}</span>
+              <span className="mobile-nav-arrow">→</span>
             </a>
           ))}
         </nav>
-
-        <div className="header-controls">
-          <button className="theme-toggle" onClick={()=>setTheme(theme==="dark"?"light":"dark")}
-                  aria-label="Toggle theme" title="Toggle theme">
-            {theme === "dark" ? (
-              <svg viewBox="0 0 20 20" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="1.5">
-                <path d="M16 11.5A6 6 0 0 1 8.5 4a6 6 0 1 0 7.5 7.5z"/>
-              </svg>
-            ) : (
-              <svg viewBox="0 0 20 20" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="1.5">
-                <circle cx="10" cy="10" r="3.5"/>
-                <path d="M10 2v2M10 16v2M2 10h2M16 10h2M4.2 4.2l1.4 1.4M14.4 14.4l1.4 1.4M4.2 15.8l1.4-1.4M14.4 5.6l1.4-1.4"/>
-              </svg>
-            )}
-          </button>
-          <button className="lang-toggle" onClick={()=>setLang(lang==="km"?"en":"km")}>
-            <span className={"lang-pill " + (lang==="km" ? "is-active":"")}>ខ្មែរ</span>
-            <span className="lang-divider">/</span>
-            <span className={"lang-pill " + (lang==="en" ? "is-active":"")}>EN</span>
-          </button>
-        </div>
       </div>
-    </header>
+    </>
   );
 }
 
@@ -161,6 +196,33 @@ function HomePage({ lang, tweaks }) {
             <div className="stat-k">{T(lang, s.k)}</div>
           </div>
         ))}
+      </section>
+
+      <section className="home-service">
+        <div className="home-service-text">
+          <div className="home-service-label">
+            {lang==="km" ? "ក្នុងពេលបំពេញការងារ" : "On Duty"}
+          </div>
+          <h2 className={"home-service-title " + langClass(lang)}>
+            {lang==="km"
+              ? "ការបង្ហាញខ្លួនជាផ្លូវការ"
+              : "On the record, in service."}
+          </h2>
+          <p className={"home-service-body " + langClass(lang)}>
+            {lang==="km"
+              ? "ការបំពេញមុខងារ​ផ្លូវការ​ក្នុង​ឋានៈ​ជា​មេបញ្ជាការ​ភូមិភាគ — ការ​បង្ហាត់​បង្រៀន ការ​ត្រួត​ពិនិត្យ និង​ការ​តំណាង​អង្គភាព​នៅ​ក្នុង​ពិធី​ផ្លូវការ។"
+              : "Formal duties as a platoon leader — instruction, oversight, and representing the unit at official ceremonies."}
+          </p>
+        </div>
+        <figure className="home-service-photo-wrap">
+          <img className="home-service-photo" src="assets/podium.jpg" alt="Officer at podium" loading="lazy"
+               onError={(e)=>{ e.currentTarget.parentElement.style.display = "none"; }} />
+          <figcaption className="home-service-caption">
+            <span>{T(lang, m.serial)}</span>
+            <span>·</span>
+            <span>{lang==="km" ? "ពិធី​ផ្លូវការ" : "Official ceremony"}</span>
+          </figcaption>
+        </figure>
       </section>
     </article>
   );
