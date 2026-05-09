@@ -443,7 +443,7 @@ function ContactPage({ lang }) {
       title={{en:"Get in touch.", km:"ទាក់ទង​មក។"}}>
       <div className="contact-grid">
         <div className="contact-card">
-          <div className="contact-label">{lang==="km"?"អុីម៉ែល":"Email"}</div>
+          <div className="contact-label">{lang==="km"?"អ៊ីម៉ែល":"Email"}</div>
           <a className="contact-v" href={"mailto:"+c.email}>{c.email}</a>
         </div>
         <div className="contact-card">
